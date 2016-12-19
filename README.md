@@ -1,2 +1,3 @@
 # HW12
-Homework and notes 12/15 - Movies API and Weekend Assignment
+12/15 - Movies API practice
+12/19 - backend and frontend joint lecture notes
