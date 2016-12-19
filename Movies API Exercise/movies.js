@@ -28,8 +28,16 @@ function moviesResults() {
     let parent = document.querySelector('#moviesList')
 
     let movie = document.createElement('li');
-    movie.textContent = 'movie';
+    // movie.textContent = 'movie';
     parent.appendChild(movie);
+
+    let title = document.createElement('p');
+    movie.appendChild(title);
+
+    let poster = document.createElement('img');
+    poster.src = 'https://image.tmdb.org/t/p/w185_and_h278_bestv2' + movie.poster_path;
+    movie.appendChild(poster);
+    console.log(movie.poster_path);
 }
 
 window.addEventListener('load', init);
