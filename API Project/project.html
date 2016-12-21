@@ -4,18 +4,38 @@
 
 <head>
     <title>Park the Car</title>
-    <script src="project.js"></script>
     <link rel="stylesheet" href="project.css">
+    <script src="https://use.fontawesome.com/7fb1b7bdac.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
+    <script src="project.js"></script>
+    <script id="lotList" type="x-mustache-template">
+        <h3>{{lotName}}</h3>
+        <p class="capacity">Capacity: {{cap}}</p>
+        <p class="cost">Cost: ${{cost}}</p>
+    </script>
+    <script id="carList" type="x-mustache-template">
+        <div class="text">
+            <h3> <i class="fa fa-car" aria-hidden="true"></i> {{name}}</h3>
+            <p class="size">Size: {{size}}</p>
+            <p class="cash">Cash in Hand: ${{cash}}</p>
+        </div>
+        <div class="buttons">
+            <button class="lot1">BFE</button>
+            <button class="lot2">C2</button>
+            <button class="lot3">Paved Paradise</button>
+            <button class="lot4">Handicap Parking</button>
+        </div>
+    </script>
 </head>
 
 <body>
     <header>
         <h1>Preferred Parking</h1>
     </header>
+    
+    <ul id="lots">
+    </ul>
     <ul id="cars">
-        <li>Car Name</li>
-        <li>Size</li>
-        <li>Cash</li>
     </ul>
 </body>
 

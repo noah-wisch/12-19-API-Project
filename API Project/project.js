@@ -1,63 +1,95 @@
+let cars = [
+    {
+        name: 'BMW X5',
+        size: 3,
+        cash: 30,
+    },
+    {
+        name: 'Honda Accord',
+        size: 4,
+        cash: 45,
+    },
+    {
+        name: 'Mazda CRX',
+        size: 6,
+        cash: 25,
+    },
+    {
+        name: 'Acura NSX',
+        size: 2,
+        cash: 60,
+    },
+]
 
 function init() {
-    popCars();
+    popCars(cars);
+    getLots();
+    //button.addEventListener('click', )
 }
 
-function placeholder() {
+function getLots() {
     let request = new XMLHttpRequest();
-    request.open('GET', 'URL');
+    request.open('GET', 'https://dry-inlet-45164.herokuapp.com/lot');
     request.addEventListener('load', function () {
         let response = JSON.parse(request.responseText);
-        console.log(response);
-
-        for (let i = 0; i < array.length; i++) {
-            popCars(response[i]);
+        for (let i = 0; i < response.length; i++) {
+            showLots(response[i]);
         }
     });
     request.send();
 }
 
-function popCars() {
-    let array = [
+function popCars(array) {
+    let parent = document.querySelector('#cars');
+
+    for (let i = 0; i < array.length; i++) {
+        let cars = document.createElement('li');
+
+        cars.innerHTML = Mustache.render(
+            document.querySelector('#carList').innerHTML,
+            {
+                name: array[i].name,
+                size: array[i].size,
+                cash: array[i].cash,
+            });
+        parent.appendChild(cars);
+    }
+}
+
+function showLots(lot) {
+    let parent = document.querySelector('#lots');
+    let lots = document.createElement('li');
+
+    lots.innerHTML = Mustache.render(
+        document.querySelector('#lotList').innerHTML,
         {
-            name: 'BMW X5',
-            size: 3,
-            cash: '$30',
-        },
+            lotName: lot.id,
+            cap: lot.capacity,
+            filled: lot.addCar,
+            cost: lot.cost,
+        });
+    parent.appendChild(lots);
+    //console.log(lot);
+}
 
-        {
-            name: 'Honda Accord',
-            size: 4,
-            cash: '$45',
-        },
+function spacesFilled(specificLot) {
 
-        {
-            name: 'Mazda CRX',
-            size: 6,
-            cash: '$25',
-        },
+    let total = 0;
+    for (let i = 0; i < specificLot.cars.length; i++) {
+        let car = specificLot.cars[i];
+        total = total + cars.size; // 'size is a property of cars'
+    }
+    return total; // return the sum of all the properties
+}
 
-        {
-            name: 'Acura NSX',
-            size: 2,
-            cash: '$60',
-        },
-    ]
-
-    let grandParent = document.querySelector('#cars');
-
-    let parent = document.createElement('li');
-    parent.appendChild(grandParent)
-
-    let carName = document.createElement('p')
-    parent.appendChild(carName)
-
-    let carSize = document.createElement('p')
-    parent.appendChild(carSize)
-
-    let carCash = document.createElement('p')
-    parent.appendChild(carCash)
-    console.log(popCars);
+function update() { // NEEDS TO BE SET UP
+    let request = new XMLHttpRequest();
+    request.open('POST', 'https://dry-inlet-45164.herokuapp.com/addCar');
+    request.addEventListener('load', function () {
+        console.log('Car Sent to Lot');
+    });
+    request.send(JSON.stringify('placeholder'));
+    //setInterval(showLots(), 9000);
 }
 
 window.addEventListener('load', init);
