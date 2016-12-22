@@ -1,23 +1,24 @@
 let cars = [
     {
-        name: 'BMW X5',
-        size: 3,
-        cash: 30,
+        carName: 'BMW X5',
+        carSize: 3,
+        carCost: 30,
+        lotChoice:'BFE',
     },
     {
-        name: 'Honda Accord',
-        size: 4,
-        cash: 45,
+        carName: 'Honda Accord',
+        carSize: 4,
+        carCost: 45,
     },
     {
-        name: 'Mazda CRX',
-        size: 6,
-        cash: 25,
+        carName: 'Mazda CX 5',
+        carSize: 6,
+        carCost: 25,
     },
     {
-        name: 'Acura NSX',
-        size: 2,
-        cash: 60,
+        carName: 'Acura NSX',
+        carSize: 2,
+        carCost: 60,
     },
 ]
 
@@ -48,11 +49,33 @@ function popCars(array) {
         cars.innerHTML = Mustache.render(
             document.querySelector('#carList').innerHTML,
             {
-                name: array[i].name,
-                size: array[i].size,
-                cash: array[i].cash,
+                carName: array[i].carName,
+                carSize: array[i].carSize,
+                carCost: array[i].carCost,
             });
         parent.appendChild(cars);
+
+        // below is taken from Lexi
+        let lot1Button = cars.querySelector('.lot1');
+        lot1Button.addEventListener('click', function () {
+            // updateCars has two parameters
+            update(0, cars[i]);
+        });
+
+        let lot2Button = cars.querySelector('.lot2');
+        lot2Button.addEventListener('click', function () {
+            update(1, cars[i]);
+        });
+
+        let lot3Button = cars.querySelector('.lot3');
+        lot3Button.addEventListener('click', function () {
+            update(2, cars[i]);
+        });
+
+        let lot4Button = cars.querySelector('.lot4');
+        lot4Button.addEventListener('click', function () {
+            update(3, cars[i]);
+        });
     }
 }
 
@@ -65,30 +88,37 @@ function showLots(lot) {
         {
             lotName: lot.id,
             cap: lot.capacity,
-            filled: lot.addCar,
             cost: lot.cost,
+            carName: lot.car,
         });
     parent.appendChild(lots);
     //console.log(lot);
 }
 
-function spacesFilled(specificLot) {
+// function spacesFilled(specificLot) {
 
-    let total = 0;
-    for (let i = 0; i < specificLot.cars.length; i++) {
-        let car = specificLot.cars[i];
-        total = total + cars.size; // 'size is a property of cars'
+//     let total = 0;
+//     for (let i = 0; i < specificLot.cars.length; i++) {
+//         let car = specificLot.cars[i];
+//         total = total + cars.carSize; // 'carSize is a property of cars'
+//     }
+//     return total; // return the sum of all the properties
+// }
+
+function update() {
+    let parkedCar = {
+        carName: cars.carName,
+        carSize: cars.carSize,
+        carCost: cars.carCost,
+        lotChoice: cars.lotChoice,
     }
-    return total; // return the sum of all the properties
-}
-
-function update() { // NEEDS TO BE SET UP
+    
     let request = new XMLHttpRequest();
     request.open('POST', 'https://dry-inlet-45164.herokuapp.com/addCar');
     request.addEventListener('load', function () {
         console.log('Car Sent to Lot');
     });
-    request.send(JSON.stringify('placeholder'));
+    request.send(JSON.stringify(parkedCar));
     //setInterval(showLots(), 9000);
 }
 
